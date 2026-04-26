@@ -248,7 +248,7 @@ function buildUA(baseUA, seed) {
 function buildSignedParamsRaw(capture) {
   const params = {};
   Object.keys(capture.paramsRaw || {}).forEach(k => {
-    if (k !== 'sign' && k !== 'signDate') params[k] = capture.paramsRaw[k];
+    if (k !== 'sign' && k !== 'signDate' && k !== 'timestamp' && k !== 'ts' && k !== 'nonce' && k !== 'random' && k !== 'reqTime' && k !== 'reqId' && k !== 'requestId') params[k] = capture.paramsRaw[k];
   });
   params.signDate = getUTCSignDate();
   const signBase = Object.keys(params).sort().map(k => `${k}=${params[k]}`).join('&');
