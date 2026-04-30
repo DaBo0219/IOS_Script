@@ -177,8 +177,9 @@ function MD5(string) {
 // ======== 工具函数 ========
 
 function getUTCSignDate() {
-  const d = new Date();
-  return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${now.getUTCFullYear()}-${pad(now.getUTCMonth()+1)}-${pad(now.getUTCDate())} ${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
 }
 
 function parseRawQuery(url) {
@@ -248,7 +249,7 @@ function buildUA(baseUA, seed) {
 function buildSignedParamsRaw(capture) {
   const params = {};
   Object.keys(capture.paramsRaw || {}).forEach(k => {
-    if (k !== 'sign' && k !== 'signDate' && k !== 'timestamp' && k !== 'ts' && k !== 'nonce' && k !== 'random' && k !== 'reqTime' && k !== 'reqId' && k !== 'requestId') params[k] = capture.paramsRaw[k];
+    if (k !== 'sign' && k !== 'signDate') params[k] = capture.paramsRaw[k];
   });
   params.signDate = getUTCSignDate();
   const signBase = Object.keys(params).sort().map(k => `${k}=${params[k]}`).join('&');
